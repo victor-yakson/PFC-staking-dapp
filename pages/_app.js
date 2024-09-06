@@ -1,5 +1,4 @@
 import "../styles/globals.css";
-import "../styles/main.css"
 import toast, { Toaster } from "react-hot-toast";
 import merge from "lodash/merge";
 import "@rainbow-me/rainbowkit/styles.css";
