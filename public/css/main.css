@@ -3829,7 +3829,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .share__link--link {
-  background-color: $lightgrey;
+  background-color: lightgrey;
 }
 
 .share__link--link:hover {
