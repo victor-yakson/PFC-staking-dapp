@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import toast, { Toaster } from "react-hot-toast";
 import merge from "lodash/merge";
 import "@rainbow-me/rainbowkit/styles.css";
+import Head from "next/head"; // <- Added Head component
 
 import {
   getDefaultWallets,
@@ -86,6 +87,9 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
+      <Head>
+        <link rel="stylesheet" href="/css/main.css" /> {/* Static CSS */}
+      </Head>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains} theme={myTheme}>
           <Component {...pageProps} />
