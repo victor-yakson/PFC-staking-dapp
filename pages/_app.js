@@ -1,7 +1,10 @@
-import "../styles/globals.css";
+import "../styles/globals.css";  // Keep your global styles
+import "../styles/main.css";     // Import main.css from styles folder
+
 import toast, { Toaster } from "react-hot-toast";
 import merge from "lodash/merge";
 import "@rainbow-me/rainbowkit/styles.css";
+import Head from "next/head"; // For including <link> tags if needed
 
 import {
   getDefaultWallets,
@@ -13,10 +16,9 @@ import {
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
-//HOLESKY RPC URL
+// Environment Variables
 const HOLESKY = process.env.NEXT_PUBLIC_HOLESKY_RPC_URL;
 const EXPLORER = process.env.NEXT_PUBLIC_EXPLORER;
-
 const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
 const CURRENCY = process.env.NEXT_PUBLIC_CURRENCY;
 const DECIMALS = process.env.NEXT_PUBLIC_NETWORK_DECIMALS;
@@ -24,7 +26,7 @@ const NAME = process.env.NEXT_PUBLIC_NETWORK_NAME;
 const NETWORK = process.env.NEXT_PUBLIC_NETWORK;
 
 export default function App({ Component, pageProps }) {
-  //HOLESKY
+  // HOLESKY Configuration
   const { chains, provider } = configureChains(
     [
       {
@@ -86,6 +88,10 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
+      <Head>
+        <title>Staking DApp</title>
+        {/* You can add any additional meta tags or favicons here */}
+      </Head>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains} theme={myTheme}>
           <Component {...pageProps} />
