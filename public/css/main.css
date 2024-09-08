@@ -16,7 +16,7 @@ body {
 body {
   font-family: "Manrope", sans-serif;
   font-weight: 400;
-  background-color: #16142a;
+  background-color: #16142a !important;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -34,7 +34,7 @@ button:focus {
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none !important;
   transition: 0.5s ease;
   transition-property: color, background-color, border-color, box-shadow;
 }
