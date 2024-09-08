@@ -5,15 +5,15 @@ import { IoMdClose } from "./ReactICON";
 import { LOAD_TOKEN_ICO } from "../Context/constants";
 import { BUY_TOKEN } from "../Context/index";
 
-const CURRENCY = process.env.NEXT_PUBLIC_CURRENCY;
-const ADMIN_ADDRESS = process.env.NEXT_PUBLIC_ADMIN_ADDRESS;
-
 const ICOSale = ({ setLoader }) => {
   const { address } = useAccount();
   const [tokenDetails, setTokenDetails] = useState();
   const [price, setPrice] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(7 * 24 * 60 * 60); // 7 days in seconds
+  const [timeLeft, setTimeLeft] = useState(0); // Countdown in seconds
   const [currentPrice, setCurrentPrice] = useState(0);
+
+  // Fixed ICO start date (e.g., ICO started on September 1, 2024)
+  const ICO_START_DATE = new Date("2024-09-01T00:00:00Z").getTime(); // Use a fixed start date
 
   useEffect(() => {
     if (address) {
@@ -21,35 +21,37 @@ const ICOSale = ({ setLoader }) => {
         const token = await LOAD_TOKEN_ICO();
         setTokenDetails(token);
         setCurrentPrice(token?.tokenPrice);
-        console.log(token);
       };
       loadToken();
     }
   }, [address]);
 
   useEffect(() => {
-    // Check if there's a saved time in local storage
-    const savedTime = localStorage.getItem("tokenSaleTimeLeft");
-    const savedTimestamp = localStorage.getItem("tokenSaleSavedTimestamp");
+    const calculateTimeLeft = () => {
+      const now = Date.now();
+      const secondsSinceStart = Math.floor((now - ICO_START_DATE) / 1000);
 
-    if (savedTime && savedTimestamp) {
-      const elapsedTime = Math.floor((Date.now() - savedTimestamp) / 1000);
-      const remainingTime = savedTime - elapsedTime;
-      setTimeLeft(remainingTime > 0 ? remainingTime : 7 * 24 * 60 * 60);
-    }
+      // 7 days in seconds
+      const cycleDuration = 7 * 24 * 60 * 60;
 
+      // Time left in the current cycle
+      const timeLeftInCycle = cycleDuration - (secondsSinceStart % cycleDuration);
+
+      setTimeLeft(timeLeftInCycle);
+    };
+
+    calculateTimeLeft(); // Initial calculation
+
+    // Timer to update countdown every second
     const timer = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 0) {
+      setTimeLeft((prevTimeLeft) => {
+        if (prevTimeLeft <= 1) {
+          // If time left reaches 0, increase price and reset the countdown
           setCurrentPrice((prevPrice) => prevPrice * 1.05); // Increase price by 5%
-          localStorage.setItem("tokenSaleTimeLeft", 7 * 24 * 60 * 60); // Reset timer
-          localStorage.setItem("tokenSaleSavedTimestamp", Date.now());
-          return 7 * 24 * 60 * 60;
+          calculateTimeLeft(); // Recalculate time left
+          return 7 * 24 * 60 * 60; // Reset to 7 days
         }
-        // Save the time left and timestamp in local storage
-        localStorage.setItem("tokenSaleTimeLeft", prevTime - 1);
-        localStorage.setItem("tokenSaleSavedTimestamp", Date.now());
-        return prevTime - 1;
+        return prevTimeLeft - 1;
       });
     }, 1000);
 
@@ -58,15 +60,13 @@ const ICOSale = ({ setLoader }) => {
 
   const CALLING_FUNCTION_BUY_TOKEN = async (price) => {
     setLoader(true);
-    const quentity = price / currentPrice;
-    console.log(quentity);
-    const receipt = await BUY_TOKEN(quentity);
+    const quantity = price / currentPrice;
+    const receipt = await BUY_TOKEN(quantity);
     if (receipt) {
-      console.log(receipt);
       setLoader(false);
-      window.location.reload();
+      window.location.reload(); // Reload after purchase (if required)
     }
-    setLoader(true);
+    setLoader(false);
   };
 
   const formatTime = (seconds) => {

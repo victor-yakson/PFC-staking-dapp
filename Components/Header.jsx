@@ -86,7 +86,7 @@ const Header = ({ page }) => {
                 data-bs-toggle="modal"
                 class="header__profile"
               >
-                <i class="ti ti-user-circle">
+                <i className="ti ti-user-circle">
                   <MdGeneratingTokens />
                 </i>
                 <span>Buy $PFC Presale</span>

@@ -1,10 +1,8 @@
-import "../styles/globals.css";  // Keep your global styles
-import "../styles/main.css";     // Import main.css from styles folder
+import "../styles/globals.css"; // Keep your global styles
 
 import toast, { Toaster } from "react-hot-toast";
 import merge from "lodash/merge";
 import "@rainbow-me/rainbowkit/styles.css";
-import Head from "next/head"; // For including <link> tags if needed
 
 import {
   getDefaultWallets,
@@ -88,10 +86,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      <Head>
-        <title>Staking DApp</title>
-        {/* You can add any additional meta tags or favicons here */}
-      </Head>
+     
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains} theme={myTheme}>
           <Component {...pageProps} />

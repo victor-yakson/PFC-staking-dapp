@@ -183,7 +183,7 @@ const Pool = ({ poolDetails, createPool, setLoader, setModifyPoolID }) => {
                                     data-bs-toggle="modal"
                                     onClick={() => setModifyPoolID(index)}
                                   >
-                                    <i class="ti ">
+                                    <i className="ti ">
                                       <FaEdit />
                                     </i>
                                     <span>Update APY</span>

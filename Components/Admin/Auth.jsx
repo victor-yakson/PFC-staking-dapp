@@ -2,7 +2,7 @@ import React from "react";
 
 const Auth = () => {
   return (
-    <div class="new-loader-wrapper-admin">
+    <div className="new-loader-wrapper-admin">
       <div className=" modal--auto ">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">

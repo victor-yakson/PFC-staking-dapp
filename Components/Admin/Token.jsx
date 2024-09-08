@@ -64,7 +64,7 @@ const Token = ({ token }) => {
                   }}
                   target="_blank"
                   href={`${TOKEN_EXPLORER}${TOKEN}`}
-                  class="header__profile"
+                  className="header__profile"
                 >
                   <i class="ti ti-user-circle">
                     <MdAdminPanelSettings />
